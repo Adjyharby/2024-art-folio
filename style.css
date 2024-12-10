@@ -1,0 +1,105 @@
+button {
+  padding: 0.3em;
+  font-size: 1.5em;
+  background-color: rgb(249, 238, 179);
+  border: 3px groove rgb(167, 152, 152);
+  border-radius: 15px;
+  font-family: cambria;
+}
+body {
+  overflow-y: scroll;
+  background-color: black;
+  border: 15px solid black;
+  margin: 0;
+  border-left: none;
+  border-right: none;
+}
+body::-webkit-scrollbar {
+  display: none;
+}
+hr {
+  border: 1.5px solid black;
+}
+
+.header {
+  border-bottom: 0.5vh solid black;
+  background-image: url("header.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 23vh;
+}
+.header h1 {
+  margin: 0;
+  text-align: center;
+  font-size: 3em;
+}
+.header h4 {
+  margin: 0;
+  text-align: center;
+  font-size: 1.5em;
+}
+.header span {
+  font-size: 1.5em;
+}
+.body2 {
+  margin: 0;
+  color: antiquewhite;
+  background-image: url("paralax.png");
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.introduction {
+  margin: 0;
+}
+.introduction p {
+  margin: 0;
+  font-size: 175%;
+  text-indent: 1.5em;
+  margin-left: 1em;
+  margin-right: 2em;
+  line-height: 175%;
+}
+
+.modalbuttons h1 {
+  margin: 0;
+  text-align: center;
+  font-size: 300%;
+}
+
+#month,
+#purpose {
+  margin-top: 2.5em;
+  margin-bottom: 1em;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  padding: 0.5em;
+  font-size: 2em;
+}
+.monthmodal {
+  text-align: center;
+  border: 3px solid black;
+}
+.monthdiv {
+  display: flex;
+  overflow-x: scroll;
+}
+.monthdiv img {
+  max-width: 80vw;
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+}
+.monthdiv::-webkit-scrollbar {
+  display: none;
+}
+
+.purposemodal {
+  text-align: center;
+  border: 3px solid black;
+}
+#loadingMessage{
+    display: flex; justify-content: center; align-items: center; height: 100vh;
+}
