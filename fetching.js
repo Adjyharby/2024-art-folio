@@ -61,37 +61,6 @@
       }
     );
 
-    // Refactor month toggle functionality
-    function setupMonthToggle(monthId, newText, originalTextTimeout = 3000) {
-      let prevText = $(monthId).text();
-
-      document.querySelector(monthId).addEventListener("click", () => {
-        let currText = $(monthId).text();
-
-        if (currText === prevText) {
-          $(monthId).toggle(1000, () => {
-            $(monthId).html(`<h2>${newText}</h2>`);
-          });
-
-          $(monthId).toggle(1000);
-
-          setTimeout(() => {
-            $(monthId).toggle(1000, () => {
-              $(monthId).html(`<h2>${prevText}</h2>`);
-            });
-
-            $(monthId).toggle(1000);
-          }, originalTextTimeout);
-        }
-      });
-    }
-
-    // Initialize toggles for specific months
-    setupMonthToggle("#january", "I was busy writing the game plot for stranded");
-    setupMonthToggle("#may", "It was the finals for my second year I couldn't risk it");
-    setupMonthToggle("#october", "my month, my rest");
-    setupMonthToggle("#december", "I will start around 25");
-
     // Function to set up image toggles
     function setupImageToggle(toggleId, divId, imagePath, imageCount, extraImages = []) {
       $(`${toggleId}`).click(() => {
@@ -110,13 +79,10 @@
           });
 
           $(`${divId}`).html(content);
-          $(`${divId}`).toggle(1000, () => {
-            $("#march, #april, #june, #july, #august,#september,#november").toggle(1000);
-          });
+          $(`${divId}`).toggle(1000);
         } else {
           $(`${divId}`).toggle(1000, () => {
             $(`${divId}`).empty();
-            $("#march, #april, #june, #july, #august,#september,#november").toggle(1000);
           });
           $(`${divId}`).toggle(10);
         }
