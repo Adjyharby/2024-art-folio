@@ -10,6 +10,10 @@
       max-width: 100px;
       margin: 5px;
     }
+    .loading {
+      font-size: 14px;
+      color: #555;
+    }
   </style>
 </head>
 <body>
@@ -61,26 +65,63 @@
       }
     );
 
+    // Helper function to load images asynchronously with a timeout
+    function loadImagesWithTimeout(imagePaths, timeoutMs) {
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject("Image loading timed out"), timeoutMs)
+      );
+
+      const imageLoadPromises = imagePaths.map((src) => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.src = src;
+          img.onload = () => resolve(img); // Resolve when the image is loaded
+          img.onerror = () => reject(`Failed to load image: ${src}`); // Reject on error
+        });
+      });
+
+      return Promise.race([
+        Promise.all(imageLoadPromises), // Wait for all images to load
+        timeoutPromise,                // Or timeout after 20 seconds
+      ]);
+    }
+
     // Function to set up image toggles
     function setupImageToggle(toggleId, divId, imagePath, imageCount, extraImages = []) {
+      const imagePaths = [];
+
+      // Generate the list of image paths
+      for (let x = 1; x <= imageCount; x++) {
+        imagePaths.push(`./pictures/${imagePath}${x}.png`);
+      }
+      extraImages.forEach((image) => {
+        imagePaths.push(`./pictures/${image}`);
+      });
+
+      // Event handler for the toggle button
       $(`${toggleId}`).click(() => {
-        if ($(`${divId}`).children().length == 0) {
-          $(`${divId}`).toggle(10);
-          let content = "";
+        if ($(`${divId}`).children().length === 0) {
+          $(`${divId}`).toggle(10).html('<p class="loading">Loading images...</p>');
 
-          // Add the images from the folder
-          for (let x = 1; x <= imageCount; x++) {
-            content += `<img src='./pictures/${imagePath}${x}.png' alt='Image ${x}'>`;
-          }
+          // Load images asynchronously with a 20-second timeout
+          loadImagesWithTimeout(imagePaths, 20000)
+            .then((images) => {
+              // All images are loaded successfully within the timeout
+              let content = "";
+              images.forEach((img) => {
+                content += `<img src="${img.src}" alt="Image">`;
+              });
 
-          // Add extra images (like GIFs) if provided
-          extraImages.forEach((image) => {
-            content += `<img src='./pictures/${image}' alt='Extra Image'>`;
-          });
-
-          $(`${divId}`).html(content);
-          $(`${divId}`).toggle(1000);
+              // Add the loaded images to the div
+              $(`${divId}`).html(content);
+              $(`${divId}`).toggle(1000);
+            })
+            .catch((error) => {
+              console.error(error); // Log any errors
+              $(`${divId}`).html("<p>Failed to load images or timed out.</p>");
+            });
         } else {
+          // Hide and clear the div
           $(`${divId}`).toggle(1000, () => {
             $(`${divId}`).empty();
           });
